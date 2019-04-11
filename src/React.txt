@@ -1,0 +1,95 @@
+React uses a syntax extension of JavaScript called JSX that allows you to write HTML directly within JavaScript. 
+
+ReactDOM.render(JSX, document.getElementById('root'));   // JSX is React var
+
+const JSX = <h2>Hello React!</h2>;
+
+One important thing to know about nested JSX is that it must return a single element
+
+use () if more than one element is used 
+
+wrap the comment in prentheses {}:
+const JSX = (
+  <div>
+  {/* this is comment */}
+    <h1>This is a block of JSX</h1>
+    <p>Here's a subtitle</p>
+  </div>
+);
+
+ReactDOM.render(componentToRender, targetNode);
+
+"className" is used instead of "class", becoz class is reserved keyword in JS.
+
+the naming convention for all HTML attributes and event references in JSX become camelCase. ex onclick becomes onclick
+
+ex:
+
+const JSX = (
+  <div className="myDiv">
+    <h1>Add a class to this div</h1>
+  </div>
+);
+
+Any JSX element can be written with a self-closing tag, and every element must be closed.ex.   <div /> is valid
+
+stateless component are of 2 types: one that can receive data and render it, but does not manage or track changes to that data
+
+
+ex: const jsx = function(){};
+
+===============================================
+const DemoComponent = function() {  // function should start with capital letter
+  return (
+    <div className='customClass' />
+  );
+};
+==============================================================================
+
+class Kitten extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <h1>Hi</h1>
+    );
+  }
+}
+
+=========================================================
+Component Composition
+
+const ChildComponent = () => {
+  return (
+    <div>
+      <p>I am the child</p>
+    </div>
+  );
+};
+
+class ParentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>I am the parent</h1>
+        { /* change code below this line */ }
+        <ChildComponent />
+
+        { /* change code above this line */ }
+      </div>
+    );
+  }
+};
+===================================================================
+
+ You can render JSX elements, stateless functional components, and ES6 class components within other components.
+
+
+To render component instead of JSX var:
+ReactDOM.render(<TypesOfFood/>,document.getElementById("challenge-node"));
+

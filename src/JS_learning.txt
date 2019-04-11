@@ -1,0 +1,678 @@
+
+In JS:
+in switch case values are checked with strict equality ===
+
+Objects methods: .hasOwnProperty
+
+parseInt(string,radix)
+
+You need program (transpiler) to support ES6 in your browser
+
+variable without 'var' keyword is global in JS. ex: x=34;
+
+Use "use strict" for static type check:   x=34 --> throw an error.
+
+ES6:
+using var we can declare same variable two times -----> bug
+use let instead for the solution
+
+we can use let with same varible in different scope. ---->valid
+
+var makes variable global if not declared inside function
+ex. for(var i=0;i<9;i++){}
+i can be accessed anywhere outside for loop
+
+but using let does not allow that , let makes scope of variable only within the block it is declared. 
+
+const same as let only not changed
+const object,function and array var cannot be assigned to new ref but its value can be changed.
+
+Making sure no mutation is done on object:
+Object.freeze(obj);
+changing val will not throw any error and also will not change value.
+
+
+number%1 gives the decimal values
+
+rest operator:
+can take as many arguments as given in args array
+function fun(...args){   // args is keyword
+	 // args is array 
+	return args.reduce((a, b) => a + b, 0);
+}
+
+
+Math.max(needs "," separated values but not arrays)
+Math.max(array) ---> NaN
+
+Spread operator: unpacks array into comma separated elements
+
+const arr = [1,2,3];
+const max = Math.max(...arr);
+
+Copying arr:
+
+arr1 = [...arr2];
+
+
+destructing in Objects:
+
+let voxel = {x:12,y:"whyii",z:[1,2,3]};
+const {x:a,y:b,z:c} = voxel;
+
+// store x in var a ,y in b , z in c.
+example: 
+
+const LOCAL_FORECAST = {
+  today: { min: 72, max: 83 },
+  tomorrow: { min: 73.3, max: 84.6 }
+};
+
+
+
+function getMaxOfTmrw(forecast) {
+  "use strict";
+
+  const {tomorrow:{max:maxOfTomorrow}} = forecast; 
+
+  return maxOfTomorrow;
+}
+
+console.log(getMaxOfTmrw(LOCAL_FORECAST));  
+
+destructing in array:
+const [a, b,,, c] = [1, 2, 3, 4, 5, 6];
+console.log(a, b, c); // 1, 2, 5
+
+String: template literal
+
+you cannot use "export default" with var, let, or const
+
+the primary method of importing a default export is to simply write the value's name after import.
+
+
+let testStr = "freeCodeCamp";
+let testRegex = /Code/; --->    Case Sensitive
+testRegex.test(testStr);
+// Returns true
+
+Ignore case sentitive and match allow
+
+let myString = "freeCodeCamp";
+let fccRegex = /freecodecamp/i; // Change this line
+let result = fccRegex.test(myString); //true
+
+To extract the match:
+let stringContainingMatch = string.match(regExp);
+
+"Hello, World!  hello Hello".match(/Hello/ig);    matching ignoringcase and matching more than one values(using g)
+
+/H[aeiou]h/ to match character classes :
+will match Heh, Hah, Hgh(will not match)
+
+/[^aeiou]/gi matches all characters that are not a vowel , g is used for matching more than one Character
+
+. dot matches for a single character
+
+let difficultSpelling = "Mississippi";
+let myRegex = /s+/g; // Change this line
+let result = difficultSpelling.match(myRegex);
+
+Regex are by default greedy : 
+"titanic".match(/t[a-z]*i/)   returns ["titani"]
+
+To make it lazy use : ?
+"titanic".match(/t[a-z]*?i/)   returns ["ti"]
+
+to find character at beginning of the string:
+(/^Cal/).test("Cal fully stands for Calicut ") ---> true
+
+ShortHand:
+/\w+/ is same sa  /[a-zA-Z0-9_]+/
+
+Nagation pattern uses Capital letters: W
+ex: /\D/ is same as /[^0-9]/
+
+Special character matching:
+\s equals [ \r\t\f\n\v]   \s matches space,carriage return,form feed,new line,very magic 
+
+quantity specifiers:
+/a{3,5}h/ will match string where a occurs 3 to 5 times with one h
+ 
+To amke a element optional use ? 
+ex.  a?
+
+
+
+There are two kinds of lookaheads: positive lookahead and negative lookahead.
+
+A positive lookahead will look to make sure the element in the search pattern is there, but won't actually match it. A positive lookahead is used as (?=...) where the ... is the required part that is not matched.
+
+On the other hand, a negative lookahead will look to make sure the element in the search pattern is not there. A negative lookahead is used as (?!...) where the ... is the pattern that you do not want to be there. The rest of the pattern is returned if the negative lookahead part is not present.
+
+A more practical use of lookaheads is to check two or more patterns in one string.
+
+let password = "abc123";
+let checkPass = /(?=\w{3,6})(?=\D*\d)/;
+checkPass.test(password); // Returns true
+
+let repeatNum = "42 42 42 42";
+let reRegex = /^(\d+)\s\1\s\1$/; // Change this line
+let result = reRegex.test(repeatNum); //false
+
+
+access capture groups in the replacement string with dollar signs ($).
+
+"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1');
+// Returns "Camp Code"
+
+
+trim spaces from string 
+let str = "   Hello, js $%# World    ";
+let regEx = /^\s+|\s+$/g ;  // global is necessary
+let result = str.replace(regEx,'');
+
+false, 0, "" (an empty string), NaN, undefined, and null executes to false else all are taken as true in JS.
+[] -> true
+
+if(x=y){
+ will always run until y is falsy
+}
+
+Array:
+push   		adds at back
+unshift  	adds at front
+
+pop         removes from back
+shift       removes from front
+
+arr.splice() //  remove any number of consecutive elements from anywhere in an array.   1st arg is starting index, 2nd is no. of elements to remove, 3rd is value used to replace with value at specified index
+
+arr.splice(0,2,'hero','enrique');
+
+arr.splice(index); removes all the elements from index to end
+
+
+arr.slice() has 2 arg, 1st is index to extract from, 2nd is index to stop, it does not modify the array, it returns arr of elements
+
+arr.includes(element)  //same as contains
+
+string also has slice method .
+
+Object.keys(obj) --->  returns all the properties in obj as array
+
+arr.join('.') 
+
+to reverse string first convert string array using spred operator ,then reverse it then using arr.toString() form a string.
+arr =[...str];
+
+arr.sort();  default converts the elements into string then sorts
+[3,21,9].sort() ---> [21,3,9]
+
+use comparator to sort naturally
+
+for(let i in arr){
+ here i is of type string and goes from "0" to arr.length-1
+ arr["0"] works same as arr[0]
+} 
+
+sort numbers(based on integer):
+arr.sort((a,b)=>a-b);
+
+
+let txt ={};
+for(let i in str1){
+  txt[str1[i]] =1;
+}
+
+for(let i in str2){
+	if(!txt.hasOwnProperty(str2[i])){
+	console.log(str1 does not contain all elements of str2);
+	}
+}
+
+Array.from(1,2,3);   // [1,2,3]
+
+constructor()  new objects creation
+
+Constructors follow a few conventions:
+
+Constructors are defined with a capitalized name to distinguish them from other functions that are not constructors.
+Constructors use the keyword this to set properties of the object they will create. Inside the constructor, this refers to the new object it will create.
+Constructors define properties and behaviors instead of returning a value as other functions might.
+
+function Bird(name){
+this.name= name;
+
+}
+let hummingBird = new Bird("newName"); 
+
+instanceof
+
+using prototype to create static var in JS:
+
+Bird.prototype.leg = 2;
+
+leg is not Object own property : so hummingBird.hasOwnProperty("leg") ---> false, prototype belong to all like static var in java
+
+let duck = new Bird();
+let beagle = new Dog();
+
+console.log(duck.constructor === Bird); //prints true
+console.log(beagle.constructor === Dog); //prints true
+
+constructor is special property that is ref to the constructor function that created instance.
+
+Since constructor property can be overwritten , always use instanceof to check type of object
+---------------------------------------------------------------------------------------------------------
+We can also add method to object
+
+Bird.property.walk = function(){
+	console.log("Bird don't walk ,they fly");
+}
+Bird.prototype.tail = 1;
+
+an object’s prototype itself is an object.
+We can also assign object({}) to a property so that all property gets added at once:
+ex:
+Bird.prototype = {
+  numLegs: 2, 
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+--------------------------------------------------------------------------------------
+Setting prototype to object ,erases the constructor property of object.
+solution: 
+ Bird.prototype = {
+  constructor: Bird,	
+  numLegs: 2, 
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+--------------------------------------------------------------------------------------------
+function Dog(name) {
+  this.name = name;
+}
+
+let beagle = new Dog("Snoopy");
+
+console.log(Dog.prototype.isPrototypeOf(beagle));
+
+----------------------------------------------------------------------------------------------
+Prototype chaining: Object is a supertype for all objects in JavaScript, Object -> Bird(constructor)-> duck(instance)
+
+Object.prototype.isPrototypeOf(Bird.prototype); 
+
+duck.prototype.legs=4; //error
+Bird.prototype.legs =4;// correct
+
+
+let eagle = Object.create(Bird.prototype);
+eagle is now insatnce of  Bird but has only prototype members
+------------------------------------------------------------------------------------------------------------
+Inheritance through prototype:
+
+
+function Animal() { }
+
+Animal.prototype = {
+  constructor: Animal,
+  eat: function() {
+    console.log("nom nom nom");
+  }
+};
+
+function Dog() { }
+
+Dog.prototype = {
+  constructor: Dog,
+  walk: function(){
+    console.log("runnning");
+  }
+}
+
+
+
+Dog.prototype = Object.create(Animal.prototype);  // Dog inherits from Animal
+let beagle = new Dog();
+// console.log(beagle.walk());  doesnot work
+console.log(beagle.eat());  // Should print "nom nom nom"  
+
+-------------------------------------------------------------------
+Bird.prototype.constructor = Bird; // changing the prototype also changes its constructor, so Object also changes hence we should manually set its contructor
+
+Add your own mthods to child by chaning o=into prototype:
+ChildObject.prototype.methodName = function() {...};
+
+-------------------------------------------------------------------------------
+Use a Mixin to Add Common Behavior Between Unrelated Objects
+
+let flyMixin = function(obj) {
+  obj.fly = function() {
+    console.log("Flying, wooosh!");
+  }
+};
+
+let bird = {
+  name: "Donald",
+  numLegs: 2
+};
+
+let plane = {
+  model: "777",
+  numPassengers: 524
+};
+
+flyMixin(bird);
+flyMixin(plane);
+
+bird.fly(); // prints "Flying, wooosh!"
+plane.fly(); // prints "Flying, wooosh!"
+
+------------------------------------------------------------------------------
+Making private variable in constructor:
+
+
+function Bird() {
+  let weight = 15;    //private
+  this.getWeight = function(){
+    return weight;
+  };
+  
+}
+
+let bee = new Bird();
+bee.weight=12;    //only available to bee
+console.log(bee.weight);		  //12	
+console.log(bee.getWeight());    // 15
+
+-----------------------------------------------------------------------------------
+immediately invoked function expression (IIFE)  -- anonymous function
+
+(function() {
+  console.log("A cozy nest is ready");
+})();
+-----------------------------------------------------------------
+
+using mixin to craete module:
+
+let funModule = (function(){
+  return{
+  isCuteMixin:function(obj){
+    obj.isCute = function(){
+       return true;
+     };
+   },
+   singMixin:function(obj){
+     obj.sing = function() {
+    console.log("Singing to an awesome tune");
+  };
+   }
+  }
+})();
+function Bird(){
+  this.name = "bird";
+}
+let bird = new Bird();
+funModule.isCuteMixin(bird);
+console.log(bird.isCute());
+
+-------------------------------------------------------------------------
+
+Functional Programming
+
+function addby(x){
+  function add(y){
+  return x+y;
+  }
+  return add;
+}
+
+let addBy5 = addby(5);    //addBy is HighOrder function,  add function is assigned to var so called firstClass function, in JS all function are First class function.
+console.log(addBy5(3)); // 8
+
+Recall that in functional programming, changing or altering things is called mutation, and the outcome is called a side effect. A function, ideally, should be a pure function, meaning that it does not cause any side effects.
+
+In JS :functional your function should not change any arg values or global var , do not use splice on arguments else it will lead to bug.
+
+
+
+JS :call by value in method for simple variable,i.e. let, var
+call by ref for array & objects.
+
+arr = [...arr1] ; // does not hold the ref 
+
+map, filter ,etc does not change the original array but returns new array after applying callback on them.
+------------------------------------------------------------------------------------------------------------------
+commbine two arrays wsing concat method:
+[1,2,3].concat([4,5]) // it does not change any original array, returns new array
+
+Array.prototype.reduce(), or simply reduce()
+
+arr.sort(callback); sorts the original array ,default sorts in alphabetical order
+
+sorting without changing original array:
+let arr = [4,5,3,2,1];
+[].concat(arr).sort((a,b)=>a-b); 
+
+arr.split() can take character or regexp as delimiter to split the string  and returns array.
+
+let str = "Hello-str sls.sss";
+str.split(/[^\w+]/); //['Hello','str','sls','sss']
+
+arr.join() takes a character as delimiter returns string
+
+----------------------------------------------------------------------------------
+
+let str="  Hello this is string ";
+str.toLowerCase().match(/\w+/g).join("-");
+
+arr.every(callback fn for each elem);
+
+----------------------------------------------------------------------------------
+imlement map on prototype:
+
+// the global Array
+var s = [23, 65, 98, 5];
+
+Array.prototype.myMap = function(callback){
+  var newArray = [];
+  s.forEach(
+    item=>newArray.push(callback(item))
+  );
+  return newArray;
+};
+
+var new_s = s.myMap(function(item){
+  return item * 2;
+});
+
+----------------------------------------------------------------------------------------------------
+ arr.every((val)=>val>0); // to check every element >0
+ 
+ some() on arr to check if any element meets the criteria
+ 
+-------------------------------------------------------------------------------------------------------
+JS bind():
+
+function impartial(x, y, z) {
+  return x + y + z;
+}
+var bindCall = impartial.bind(this,2,3);
+console.log(bindCall(1));   //6
+
+
+Currying:
+
+//Un-curried function
+function unCurried(x, y) {
+  return x + y;
+}
+
+//Curried function
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+curried(1)(2) // Returns 3
+
+example:
+
+function add(x) {
+ return function(y){
+   return function(z){
+     return x+y+z;
+   }
+ }
+}
+add(10)(20)(30);
+
+-----------------------------------------------------------------------------------------------------------
+CREATING MAP FROM ARRAY:
+
+let mm =new Map();
+arr.forEach((data)=>mm.set(data,1));
+
+--------------------------------------------------------------------------------
+ iterating over literal object:
+ let src = {"a":1,"b":2,"c":3};
+ for(let k in src){
+ console.log(k,src[k])    // property,value
+ }
+ 
+ 
+ let arr = [{first: "Romeo", last: "Montague"},{first: "Mercutio", last: null},{last: "Capulet"}];
+  arr.forEach((item)=>{
+    for(let  i in item){
+        console.log(i,item[i]);
+    }
+  });
+
+
+
+
+Object.keys(src); //returns array of keys
+
+for i in arr.length i goes to arr.size -1
+
+str.charAt(index)
+
+arr.indexOf(char) //not present returns -1
+--------------------------------------------------------------------------------------------------
+SET
+
+set.values() /// set stores same as map but it stores key,val as val,val
+
+function uniteUnique(...arr) {
+  console.log(arr);
+  let set1 = new Set();
+  arr.forEach((arr1)=>{
+    arr1.forEach((item)=>{
+      //console.log(item);
+      set1.add(item)
+    });
+  });
+  //set1.forEach((item)=>console.log(item));
+  return set1;
+}
+
+uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
+
+create array from set:
+Array.from(set.keys()); // arg is anything that is iterable
+
+str.replace() // does not change the original string
+
+
+let item of arr :  item is element
+
+let i in arr:  i is index 
+
+Sieve of Eratosthenes to find all the prime <= num :
+
+
+let prime =[];
+let sieve =  new Array(num);
+
+sieve.fill(0,num,false);
+
+for(let i=2; i<=num; i++){
+	if(!sieve[i]){
+	   prime.push(i);
+	   for(let j=i<<1; j<=num; j+=i){
+			sieve[j] = true;
+	   }
+	}
+}
+
+Map in js stores key in a list and corresponding val in other list ,there is no key-> val (ref), causing memory leak
+WeakMap stores key,val as key->val 
+
+typeof(aa) == Object
+
+aa instanceof Object
+
+Array.isArray(obj) //to check  obj is array
+
+"Ab".charCodeAt(1); // 98
+
+String.fromCharCode(65);// 'A'
+
+falsy:  null,"",0,undefined,NaN
+
+
+check val is NaN:
+
+val !== val returns true if val is NaN
+
+parseInt('1101',2); // 11
+
+To check number is string number ex: "3" !=3:
+
+parseInt(y)!==y
+
+JS: 
+
+while doing subtraction with decimal values , to 2 decimal values:
+
+Math.round((x-y)*100)/100;  // else x-y will give decimal upto 10 decimal places.
+
+--------------------------------------------------------------------------------------------------------------
+
+Shallow Copy: means both var refer the same object , ex. Array.from(arr1) , [...arr1]
+
+Deep Copy:    new Object with same values created, value changed by var1 not reflected in another variable var2, 
+ex. JSON.parse(JSON.stringfy(arr1)),  this can be used for deep copying nested objects as well as nested Arrays.
+
+
+
+------------------------------------------------------------------------------------------------------------------- 
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+  
