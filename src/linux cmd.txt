@@ -1,0 +1,4 @@
+wget //download files and access internet thru http/https and ftp protocol
+
+apt-get // apt--> advanced packaging tool , to download & install packages onyour debian system
+

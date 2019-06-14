@@ -1,0 +1,115 @@
+Redux is a state management framework that can be used with a number of different web technologies, including React.
+
+const reducer = (state = 5) => {  //returns state of application
+  return state;
+}
+
+// Redux methods are available from a Redux object
+// For example: Redux.createStore()
+// Define the store here:
+const store = Redux.createStore(reducer);  //store stores all the state of application
+
+Redux is a state management framework, updating state is one of its core tasks. 
+In Redux, all state updates are triggered by dispatching actions. 
+An action is simply a JavaScript object that contains information about an action event that has occurred. 
+The Redux store receives these action objects, then updates its state accordingly.
+ Sometimes a Redux action also carries some data. 
+ For example, the action carries a username after a user logs in. While the data is optional, 
+ actions must carry a type property that specifies the 'type' of action that occurred.
+
+Redux is a state management framework, updating state is one of its core tasks. 
+In Redux, all state updates are triggered by dispatching actions. 
+An action is simply a JavaScript object that contains information about an action event that has occurred. 
+The Redux store receives these action objects, then updates its state accordingly. Sometimes a Redux action also carries some data. For example,
+ the action carries a username after a user logs in. While the data is optional, 
+ actions must carry a type property that specifies the 'type' of action that occurred.
+
+const action = {
+  type:'LOGIN'
+};
+
+After creating an action, the next step is sending the action to the Redux store so it can update its state. 
+In Redux, you define action creators to accomplish this. An action creator is simply a JavaScript function that returns an action. 
+In other words, action creators create objects that represent action events.
+
+function actionCreator(){
+    return action;
+}
+=============================================
+const store = Redux.createStore(
+  (state = {login: false}) => state
+);
+
+const loginAction = () => {
+  return {
+    type: 'LOGIN'
+  }
+};
+
+// Dispatch the action here:
+store.dispatch(loginAction());
+==========================================================
+
+Reducers in Redux are responsible for the state modifications that take place in response to actions.
+A reducer takes state and action as arguments, and it always returns a new state.
+Another key principle in Redux is that state is read-only. In other words, 
+the reducer function must always return a new copy of state and never modify state directly
+==========================
+const defaultState = {
+  login: false
+};
+
+const reducer = (state = defaultState, action) => {
+  
+  if(action.type=='LOGIN'){
+      return {login:true};
+  }else{
+    return state;
+  }
+  
+};
+
+const store = Redux.createStore(reducer);
+
+const loginAction = () => {
+  return {
+    type: 'LOGIN'
+  }
+};
+===================================
+store.subscribe(). This allows you to subscribe listener functions to the store, which are called whenever an action is 
+dispatched against the store. One simple use for this method is to subscribe a function to your store 
+that simply logs a message every time an action is received and the store is updated.
+
+const ADD = 'ADD';
+
+const reducer = (state = 0, action) => {
+  switch(action.type) {
+    case ADD:
+      return state + 1;
+    default:
+      return state;
+  }
+};
+
+const store = Redux.createStore(reducer);
+
+// global count variable:
+let count = 0;
+
+
+store.subscribe(()=>{count=count+1;});
+
+
+store.dispatch({type: ADD});
+console.log(count);
+store.dispatch({type: ADD});
+console.log(count);
+store.dispatch({type: ADD});
+console.log(count);
+=========================================================
+const rootReducer = Redux.combineReducers({
+  auth: authenticationReducer,
+  notes: notesReducer
+});
+=========================================

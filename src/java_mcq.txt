@@ -1,0 +1,10 @@
+SimpleDateFormat is not threadSafe.
+
+public abstract boolean useDaylightTime() is provided in TimeZone class
+
+java.sql.Date is the data type of Date stored in database.
+
+LocalTime of joda library represents time without date.
+
+Instant.now() provides current time in UTC/GMT.
+

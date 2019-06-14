@@ -1,0 +1,116 @@
+identify name of docker image:
+docker search redis
+
+=>docker run -d <image name>  // -d to run conatiner in backgrond, image is redis ,here // it returns container id in console
+
+=>docker run -d redis:3.2   // redis will be downloaded into host machine
+
+=>docker ps command lists all running containers, the image used to start the container and uptime.
+
+docker inspect <friendly-name|container-id> // details ip address of the container running
+
+each container is sandboxed. If a service needs to be accessible by a process not running in a container, 
+then the port needs to be exposed via the Host. 
+ 
+Once exposed, it is possible to access the process as if it were running on the host OS itself.
+
+running Redis in the background, with a name of redisHostPort(friendy name if not provided docker automatically assigns a name) 
+on port 6379 is using the following command :
+
+=>docker run -d --name redisHostPort(container name) -p 6379:6379 redis:latest(image name) // -p <host-port>:<container-port>
+
+By default, the port on the host is mapped to 0.0.0.0, which means all IP addresses.
+You can specify a particular IP address when you define the port mapping, for example, -p 127.0.0.1:6379:6379
+
+=>docker run -d --name redisHostPort -p 6379 redis // exposes redis on random port
+
+to know the port :
+
+=>docker port <redisHostPort> 6379
+
+Containers are stateless, if a database is started in container then restarting will remove the data created
+
+Any data which needs to be saved on the Docker Host, and not inside containers, should be stored in /opt/docker/data/redis.
+Redis image stores logs and data into a /data directory inside conatiner.
+
+=>docker run -d --name <freindlyname> -p 6379 -v /opt/docker/data/redis:/data redis //-v is for volume
+
+
+=>docker run -it ubuntu bash // -it(interactive mode) used to access the bash shell inside container, downloads ubuntu image from docker registry and 
+creates the container and runs it bash  
+
+docker run ubuntu ps// running ubuntu in foreground and then running ps command
+
+==========================================================================================
+Creating docker image:
+Docker Images start from a base image.This base image is defined as an instruction in the Dockerfile.
+Create your Dockerfile for building your image .
+
+To define a base image we use the instruction FROM <image-name>:<tag>, then we can use 
+"COPY" or "RUN"  command
+Docker file:
+FROM nginx:alpine
+COPY . /usr/share/nginx/html // copy <src> <dst>,copy files from the directory containing the Dockerfile to the container's image
+
+The build command executes each instruction within the Dockerfile. 
+The result is a built Docker Image that can be launched and run your configured app.
+
+<docker build -t webserver-image:v1 .>// webserver-image is name of friendlyimage file and v1 is tag, The -t parameter allows you to specify a friendly name for the image and a tag,
+ commonly used as a version number, "." is the current working dir where docker file is present
+
+When starting a container you need to give it permission and access to what it requires.
+
+For example, to open and bind to a network port on the host you need to provide the parameter -p <host-port>:<container-port>.
+
+================================================================================================
+reset
+
+docker images // list all the images
+
+docker run -d -p 80 webserver-image:v1
+
+curl docker // access result of port:80
+
+===============================================
+A Dockerfile defines all the steps required to create a Docker image with your application configured and ready to be run as a container.
+The image itself contains everything, from operating system to dependencies and configuration required to run your application.
+
+If you're copying a file into a directory then you need to specify the filename as part of the destination.
+FROM nginx:1.11-alpine
+COPY index.html /usr/share/nginx/html/index.html
+
+
+The CMD line in a Dockerfile defines the default command to run when a container is launched.
+ If the command requires arguments then it's recommended to use an array, for example ["cmd", "-a", "arga value", "-b", "argb-value"],
+ which will be combined together and the command cmd -a "arga value" -b argb-value would be run.
+ 
+While a CMD can be overridden when the container starts, a ENTRYPOINT defines a command which can have arguments passed to it when the container launches.
+
+The command to run NGINX is nginx -g daemon off;, in docker file as:
+CMD ["nginx","-g","daemon off;"]
+
+FROM nginx:1.11-alpine
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80												// we want to expose the port 80 for this app
+CMD ["nginx","-g","daemon off;"]
+
+After launching the container, the command curl -i http://docker will return our index file via NGINX and the image we built.
+====================================
+
+docker create -v /config --name dataContainer busybox
+
+docker cp config.conf dataContainer:/config/
+
+
+Using the --volumes-from <container> option we can use the mount volumes from other containers inside the container being launched.
+In this case, we'll launch an Ubuntu container which has reference to our Data Container.
+
+docker run --volumes-from dataContainer ubuntu ls /config
+
+export/import conatiners:
+-------------------------------------
+move the data conatiner to another machine as .tar file
+=>docker export dataContainer > dataCon.tar 
+to import back:
+docker import dataCon.tar
+
