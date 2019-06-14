@@ -21,7 +21,7 @@ ReactDOM.render(componentToRender, targetNode);
 
 "className" is used instead of "class", becoz class is reserved keyword in JS.
 
-the naming convention for all HTML attributes and event references in JSX become camelCase. ex onclick becomes onclick
+the naming convention for all HTML attributes and event references in JSX become camelCase. ex onclick becomes onClick
 
 ex:
 
@@ -29,7 +29,7 @@ const JSX = (
   <div className="myDiv">
     <h1>Add a class to this div</h1>
   </div>
-);
+); 
 
 Any JSX element can be written with a self-closing tag, and every element must be closed.ex.   <div /> is valid
 
@@ -39,7 +39,7 @@ stateless component are of 2 types: one that can receive data and render it, but
 ex: const jsx = function(){};
 
 ===============================================
-const DemoComponent = function() {  // function should start with capital letter
+const DemoComponent = function() {  // function variable should start with capital letter
   return (
     <div className='customClass' />
   );
@@ -87,9 +87,649 @@ class ParentComponent extends React.Component {
 };
 ===================================================================
 
- You can render JSX elements, stateless functional components, and ES6 class components within other components.
+You can render JSX elements, stateless functional components, and ES6 class components within other components.
 
 
 To render component instead of JSX var:
 ReactDOM.render(<TypesOfFood/>,document.getElementById("challenge-node"));
 
+==================================================================================================
+
+<App>
+  <Welcome user='Mark' />
+</App>
+
+const Welcome = (props) => <h1>Hello, {props.user}!</h1>
+
+=====================================================================================
+
+const List= (props) => {
+  
+  return <p>{props.tasks.join(", ")}</p>
+  
+};
+
+class ToDo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>To Do Lists</h1>
+        <h2>Today</h2>
+        
+        <List tasks={["walk","dog","workout"]}/>
+        <h2>Tomorrow</h2>
+        <List tasks={["walk","dog","workout"]}/>
+
+      </div>
+    );
+  }
+};
+
+======================================================
+
+Setting default props in a component
+
+MyComponent.defaultProps = { location: 'San Francisco' }
+
+=====================================
+
+Overriding default props :
+
+const Items = (props) => {
+  return <h1>Current Quantity of Items in Cart: {props.quantity}</h1>
+}
+
+Items.defaultProps = {
+  quantity: 0
+}
+
+class ShoppingCart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    { /* change code below this line */ }
+    return <Items quantity={100}/>    // 100 is integer
+    { /* change code above this line */ }
+  }
+};
+======================================
+
+ Among the seven JavaScript primitive types, function and boolean (written as bool) are the only two that use unusual spelling
+ 
+ MyComponent.propTypes = { handleClick: PropTypes.func.isRequired }
+ 
+ import React, { PropTypes } from 'react';
+ 
+ 
+Items.defaultProps = {
+  quantity: 0
+};
+
+Items.propTypes = {
+  quantity: PropTypes.number.isRequired
+};
+
+=================================================================
+
+class ReturnTempPassword extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  render() {
+    return (
+        <div>
+            { /* change code below this line */ }
+            <p>Your temporary password is: <strong>{this.props.tempPassword}</strong></p>
+            { /* change code above this line */ }
+        </div>
+    );
+  }
+};
+
+class ResetPassword extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  render() {
+    return (
+        <div>
+          <h2>Reset Password</h2>
+          <h3>We've generated a new temporary password for you.</h3>
+          <h3>Please reset this password from your account settings ASAP.</h3>
+          { /* change code below this line */ }
+<ReturnTempPassword tempPassword="Pankaj6457"/>
+          { /* change code above this line */ }
+        </div>
+    );
+  }
+};
+===============================================================
+
+a stateful component is any component that does maintain its own internal state. 
+You may see stateful components referred to simply as components or React components.
+A common pattern is to try to minimize statefulness and to create stateless functional components wherever possible. 
+This helps contain your state management to a specific area of your application
+
+======================================================================
+
+You create state in a React component by declaring a state property on the component class in its constructor .
+
+class StatefulComponent extends React.Component {
+  constructor(props) {
+    super(props);
+	
+    this.state = {
+      name : "Anmol"
+    }
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.name}</h1>
+      </div>
+    );
+  }
+};
+
+	Note that if you make a component stateful, no other components are aware of its state. 
+	Its state is completely encapsulated, or local to that component, unless you pass state data to a child component as props.
+	
+	=================================
+	class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'freeCodeCamp'
+    }
+  }
+  render() {
+    // change code below this line
+      const name = this.state.name;
+    // change code above this line
+    return (
+      <div>
+        { /* change code below this line */ }
+    <h1>{name}</h1>
+        { /* change code above this line */ }
+      </div>
+    );
+  }
+};
+=============================================
+
+this.setState({
+  username: 'Lewis'
+});
+
+LifeCycle methods in Component Class:
+
+componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+  
+  componentWillMount(){
+  
+  }
+==========================================
+
+class Clock extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={date:new Date()};
+  }
+  componentDidMount(){
+    this.timeId=setInterval(()=>this.tick(),1000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.timerID);
+  }
+  
+  tick(){
+    this.setState({date:new Date()});
+  }
+  
+  render(){
+    return (<div>
+        <h1>{this.state.date.toLocaleTimeString()}</h1>
+      </div>);
+  }
+}
+ReactDOM.render(<Clock/>,document.getElementById('root'));
+=================================================================
+
+bind methods in class:
+
+class ExplainBindingsComponent extends Component {
+  constructor() {
+    super();
+    this.onClickMe = this.onClickMe.bind(this);
+  }
+  onClickMe() {
+    console.log(this);
+  }
+  render() {
+    return (
+      <button
+        onClick={this.onClickMe}
+        type="button"
+      >
+        Click Me
+  </button>
+    );
+  }
+}
+
+without bind:
+
+class ExplainBindingsComponent extends Component {
+  onClickMe() {
+    console.log(this);
+  }
+  render() {
+    return (
+      <button
+        onClick={ () => { this.onClickMe() } }
+        type="button"
+      >
+        Click Me
+  </button>
+    );
+  }
+}
+============================================================
+
+this.setState({});
+
+<input value={this.state.value} onChange={} />
+=======================================================================
+
+class MyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+      submit: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      input: event.target.value
+    });
+    
+  }
+  handleSubmit(event) {
+    
+    this.setState({
+      submit: this.state.input
+    });
+    event.preventDefault();
+  }
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          
+          <input value={this.state.input} onChange={this.handleChange}/>
+         
+          <button type='submit'>Submit!</button>
+        </form>
+        
+      <h1>{this.state.submit}</h1>
+        
+      </div>
+    );
+  }
+};
+=============================================================
+
+PASS State as Props to Child Component(uni-directional):
+
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'CamperBot'
+    };
+  }
+  render() {
+    return (
+       <div>
+         <Navbar name={this.state.name} />
+       </div>
+    );
+  }
+};
+
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);   
+  }
+  render() {
+    return (
+    <div>
+      <h1>Hello, my name is: {this.props.name} </h1>
+    </div>
+    );
+  }
+};
+
+================================================================
+
+You pass methods to a child just like a regular prop. It's assigned a name and you have access to that method name under this.props in the child component.
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      inputValue: event.target.value
+    });
+  }
+  render() {
+    return (
+       <div>
+        <GetInput input={this.state.inputValue}
+        handleChange={this.handleChange}/>
+        <RenderInput input={this.state.inputValue}/>
+       </div>
+    );
+  }
+};
+
+class GetInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Get Input:</h3>
+        <input
+          value={this.props.input}
+          onChange={this.props.handleChange}/>
+      </div>
+    );
+  }
+};
+
+class RenderInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Input Render:</h3>
+        <p>{this.props.input}</p>
+      </div>
+    );
+  }
+};
+===============================
+When component is mounted but not yet rendered :
+
+componentWillMount() {
+    console.log("hello!");
+  }
+  ================================
+
+EventListener:
+
+document.addEventListener("keydown",()=>{   //"keydown is event"
+	console.log(event.which);
+});  
+	
+========================
+
+componentWillReceiveProps() 
+
+You can use nextprops as argument and compare with this.props and perform actions before the component updates.
+ For example, you may call setState() locally before the update is processed.	
+ 
+ shouldComponentUpdate() returns true or false
+ 
+=======================================
+
+Html :
+
+<div style="color: yellow; font-size: 16px">Mellow Yellow</div> 
+
+React :
+<div style={{color: "yellow", fontSize: 16}}>Mellow Yellow</div>
+
+=======================================================
+optimize render with shouldComponentUpdate lifecycle method
+
+Other than the length values that default to px, all other property values should be wrapped in quotes.
+example : length: "4em"
+length: 4 //(px is ommitted)
+
+const styles = {
+  color: "purple",
+  fontSize: 40,
+  border: "2px solid purple"
+};
+
+class Colorful extends React.Component {
+  render() {
+    
+    return (
+      <div style={styles}>Style Me!</div>
+    );
+    
+  }
+};
+=====================================================
+
+{condition && <p>markup</p>}
+
+This allows you to handle more complex conditional logic in your render() method without repeating a lot of code,
+dont use ifelse if there are many in render method.
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: true
+    }
+    this.toggleDisplay = this.toggleDisplay.bind(this);
+  }
+  toggleDisplay() {
+    this.setState({
+      display: !this.state.display
+    });
+  }
+  render() {
+    return (
+       <div>
+         <button onClick={this.toggleDisplay}>Toggle Display</button>
+        {this.state.display && <h1>Displayed!</h1>}
+       </div>
+    );
+  }
+};
+
+=========================================
+
+
+const inputStyle = {
+  width: 235,
+  margin: 5
+}
+
+class CheckUserAge extends React.Component {
+  constructor(props) {
+    super(props);
+    
+      this.state={
+        input:'',
+        userAge:''
+      }
+    
+    this.submit = this.submit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e) {
+    this.setState({
+      input: e.target.value,
+      userAge: ''
+    });
+  }
+  submit() {
+    this.setState({
+      userAge: this.state.input
+    });
+  }
+  render() {
+    const buttonOne = <button onClick={this.submit}>Submit</button>;
+    const buttonTwo = <button>You May Enter</button>;
+    const buttonThree = <button>You Shall Not Pass</button>;
+    return (
+      <div>
+        <h3>Enter Your Age to Continue</h3>
+        <input
+          style={inputStyle}
+          type="number"
+          value={this.state.input}
+          onChange={this.handleChange} /><br />
+        { 
+          (!this.state.userAge)?buttonOne:
+          (this.state.userAge>=18)?buttonTwo:buttonThree
+        }
+      </div>
+    );
+  }
+};
+==========================================================
+
+
+class GateKeeper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({ input: event.target.value })
+  }
+  render() {
+    let inputStyle = {
+      border: '1px solid black'
+    };
+    // change code below this line
+      if(this.state.input.length>15){
+        inputStyle.border='3px solid red' ;
+      }
+    // change code above this line
+    return (
+      <div>
+        <h3>Don't Type Too Much:</h3>
+        <input
+          type="text"
+          style={inputStyle}
+          value={this.state.input}
+          onChange={this.handleChange} />
+      </div>
+    );
+  }
+};
+
+============================================
+
+const textAreaStyles = {
+  width: 235,
+  margin: 5
+};
+
+class MyToDoList extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state={
+      userInput:'',
+      toDoList: new Array()
+    }
+    
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleSubmit() {
+    const itemsArray = this.state.userInput.split(',');
+    this.setState({
+      toDoList: itemsArray
+    });
+  }
+  handleChange(e) {
+    this.setState({
+      userInput: e.target.value
+    });
+  }
+  render() {
+    const items = this.state.toDoList; // change code here
+    return (
+      <div>
+        <textarea
+          onChange={this.handleChange}
+          value={this.state.userInput}
+          style={textAreaStyles}
+          placeholder="Separate Items With Commas" /><br />
+        <button onClick={this.handleSubmit}>Create List</button>
+        <h1>My "To Do" List:</h1>
+        <ul>
+          {items.map((item)=><li>{item}</li>)}
+        </ul>
+      </div>
+    );
+  }
+};
+=================================================
+React uses keys to keep track of which items are added, changed, or removed in <li>. 
+This helps make the re-rendering process more efficient when the list is modified in any way. 
+Note that keys only need to be unique between sibling elements, they don't need to be globally unique in your application
+
+
+const frontEndFrameworks = [
+  'React',
+  'Angular',
+  'Ember',
+  'Knockout',
+  'Backbone',
+  'Vue'
+];
+
+function Frameworks() {
+  const renderFrameworks = frontEndFrameworks
+  .map((item)=><li key={frontEndFrameworks.indexOf(item)}>{item}</li>); // change code here
+  return (
+    <div>
+      <h1>Popular Front End JavaScript Frameworks</h1>
+      <ul>
+        {renderFrameworks}
+      </ul>
+    </div>
+  );
+};
+
+===================================================================
+Render React on the Server with renderToString() method
+
+renderToString() method is provided on ReactDOMServer
+ReactDOMServer.renderToString(<App />);
